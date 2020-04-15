@@ -31,10 +31,26 @@
                 <!-- <p v-if='inventory > 10'>In Stock</p>
                 <p v-else-if='inventory <= 10 && inventory > 0'>Almost sold out</p>
                 <p v-else>Out of Stock</p> -->
-                <p v-show='inStock'>In Stock</p>
+                <p v-show="inStock">In Stock</p>
 
-                <span v-if='onSale'>On Sale!</span>
+                <span v-if="onSale">On Sale!</span>
                 <!-- <a :href="link" target="_blank">More products like this</a> -->
+
+                <ul>
+                    <!-- detail is a nickname / alias for details array -->
+                    <li v-for="detail in details">{{ detail }}</li>
+                    <!-- <br>
+                    <li v-for="size in sizes">{{ size }}</li> -->
+                </ul>
+
+                <ul>
+                    <li v-for="size in sizes">{{ size }}</li>
+                </ul>
+
+                <div v-for="variant in variants" :key="variant.varientID">
+                    <p>{{ variant.variantColor }}</p>
+                </div>
+                
             </div>
 
         </div>
