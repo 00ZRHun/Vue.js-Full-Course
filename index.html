@@ -4,15 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product App</title>
+    <!-- <link rel="manifest" href="./manifest.json"> -->
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+
+    <div class="nav-bar"></div>
+
     <div id="app">
-        <h1>Product goes here</h1>
-        <!-- These double curly bracket called an Expression -->
-            <!-- Used to produce / evaluate a value -->
-        <p>{{ product }}</p>
-        <h6>{{ description }}</h6>
+        <div class="product">
+
+            <div class="product-image">
+                <!-- "image" similar {{ image }} -->
+                <!-- <img v-bind:src="image" v-bind:alt="altText"> -->
+                <img :src="image" :alt="altText">
+            </div>
+            
+            <div class="product-info">
+                <!-- <h1>Product goes here</h1> -->
+                <!-- These double curly bracket called an Expression -->
+                    <!-- Used to produce / evaluate a value -->
+
+                <h1>{{ product }}</h1>
+                <h6>{{ description }}</h6>
+            </div>
+
+        </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="home.js"></script>
 </body>
