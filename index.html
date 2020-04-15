@@ -11,78 +11,13 @@
     <div class="nav-bar"></div>
 
     <div id="app">
-        <div class="product">
-            <div class="product-image">
-                <!-- "image" similar {{ image }} -->
-                <!-- <img v-bind:src="image" v-bind:alt="altText"> -->
-                <img :src="image" :alt="altText">
-            </div>
-            
-            <div class="product-info">
-                <!-- <h1>Product goes here</h1> -->
-                <!-- These double curly bracket called an Expression -->
-                    <!-- Used to produce / evaluate a value -->
-
-                <!-- <h1>{{ brand }} {{ product }}</h1> -->
-                <h1>{{ title }}</h1>
-                <h6>{{ description }}</h6>
-                <p v-if="inStock">In Stock</p>
-                <p v-else class="outOfStock">Out of Stock</p>
-                <p>{{ sale }}</p>
-                <!-- <p v-if='inventory > 10'>In Stock</p>
-                <p v-else-if='inventory <= 10 && inventory > 0'>Almost sold out</p>
-                <p v-else>Out of Stock</p> -->
-                <!-- <p v-show="inStock">In Stock</p> -->
-                <!-- <p style=" text-decoration:line-through ">Out of Stock</p> -->
-                
-                <!-- <p :style="{ textDecoration:inStock? '':'line-through' }">Out of Stock</p> -->
-                <!-- <p  :style="{ color:inStock? 'red':'' }">Out of Stock</p> -->
-            
-
-                <span v-if="onSale">On Sale!</span>
-                <!-- <a :href="link" target="_blank">More products like this</a> -->
-
-                <ul>
-                    <!-- detail is a nickname / alias for details array -->
-                    <li v-for="detail in details">{{ detail }}</li>
-                    <!-- <br>
-                    <li v-for="size in sizes">{{ size }}</li> -->
-                </ul>
-
-                <ul>
-                    <li v-for="size in sizes">{{ size }}</li>
-                </ul>
-
-                <!-- style att: 1) camelCase:value; , 2)'kebab-case':value; -->
-                <!-- :style="{ 'background-color':variant.variantColor, color:color, 'font-size':fontSize }" -->
-                <!-- :style="[styleObject1, styleObject2]" -->
-                <!-- <div v-for="variant in variants"  -->
-                <div v-for="(variant, index) in variants" 
-                     :key="variant.variantID"
-                     class="color-box"                    
-                     :style="{ 'background-color':variant.variantColor }"
-                     @mouseover="updateProduct(index)"
-                >
-                    <!-- <p v-on:mouseover="updateProduct(variant.variantImage)">{{ variant.variantColor }}</p> -->
-                        <!-- v-on:mouseover == @mouseover -->
-                    <!-- <p @mouseover="updateProduct(variant.variantImage)">{{ variant.variantColor }}</p> -->
-                </div>
-                
-                <!-- <button v-on:click="cart += 1">Add to Cart</button> -->
-                <!-- addToCart == addToCart() -->
-                <button v-on:click="addToCart" 
-                :disabled="!inStock"
-                :class="{ disabledButton:!inStock }">Add to Cart</button>
-                <!-- <button v-show="cart>0" @click="removeFromCart">Remove from Cart</button> -->
-                <button @click="removeFromCart">Remove from Cart</button>
-                <button v-on:click="cart + 0">Reset Cart</button>
-
-                <div class="cart">
-                    <p>Cart( {{cart}} )</p>
-                </div>
-            </div>
+        <product :premium="premium" :detail="detail" @add-to-cart="updateCart" @remove-from-cart="removeItem"></product>
+    
+        <div class="cart">
+            <p>Cart( {{cart.length}} )</p>
         </div>
     </div>
+        
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="main.js"></script>
