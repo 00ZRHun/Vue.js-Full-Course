@@ -1,19 +1,3 @@
-// Create a new component for product-details with a prop of details.
-
-Vue.component('product-details', {
-    props: {
-        details: {
-            type: Array,
-            required: true
-        }
-    },
-    template: `
-        <ul>
-            <li v-for="detail in details">{{ detail }}</li>
-        </ul>
-    `
-})
-
 // 2 arguement in the Vue component
     // FIRST => component name : product
     // SECOND => options object
@@ -37,6 +21,8 @@ Vue.component('product', {
                 <!-- "image" similar {{ image }} -->
                 <!-- <img v-bind:src="image" v-bind:alt="altText"> -->
                 <img :src="image" :alt="altText" />
+
+                <product-review @review-submitted="addReview"></product-review>
             </div>
             
             <div class="product-info">
@@ -105,6 +91,25 @@ Vue.component('product', {
                 <!-- <button v-show="cart>0" @click="removeFromCart">Remove from Cart</button> -->
                 <button @click="removeFromCart">Remove from Cart</button>
                 <button v-on:click="cart + 0">Reset Cart</button>
+
+                <div>
+                    <h2>Reviews</h2>
+                    <!-- <p v-if="reviews.length==0">There are no review yet.</p> -->
+                    <p v-if="!reviews.length">There are no review yet.</p>
+                    <!-- <p v-else> -->
+                        <ul v-else v-for="review in reviews">
+                            <!-- <li>Name : {{ review[0] }}</li>
+                            <li>Review : {{ review[1] }}</li>
+                            <li>Rating : {{ review[2] }}</li> -->
+                            <li>Name : {{ review.name }}</li>
+                            <li>Review : {{ review.review }}</li>
+                            <li>Rating : {{ review.rating }}</li>
+                            <li>Recommend : {{ review.recommend }}</li>
+                            <br/>
+                        </ul>
+                        
+                    <!-- </p> -->
+                </div>
             </div>
         </div>
     `,
@@ -144,6 +149,7 @@ Vue.component('product', {
             styleObject2: {
                     backgroundColor: 'black'
             },
+            reviews: [],
         }
     },
     // methods property
@@ -165,7 +171,9 @@ Vue.component('product', {
             // if (this.cart > 0)      this.cart -= 1;reduceCart
             // this.$emit('remove-from-cart')
             this.$emit('remove-from-cart', this.variants[this.selectedVariant].variantID)
-
+        },
+        addReview(productReview) {
+            this.reviews.push(productReview)
         },
     },
     computed: {
@@ -199,6 +207,118 @@ Vue.component('product', {
             return 2.99
         }
     },
+})
+
+
+// Create a new component for product-details with a prop of details.
+Vue.component('product-details', {
+    props: {
+        details: {
+            type: Array,
+            required: true
+        }
+    },
+    template: `
+        <ul>
+            <li v-for="detail in details">{{ detail }}</li>
+        </ul>
+    `
+})
+
+
+Vue.component('product-review', {
+    template: `
+    <!-- @submit.prevent => prevent page from reloading( the default behaviour ) -->
+    <form class="review-form" @submit.prevent="onSubmit">
+        <p v-if="this.errors.length">
+            <b>Please correct the following error(s):</b>
+            <ul v-for="error in errors">
+                <li>{{ error }}</li>
+            </ul>
+        </p>
+
+        <p>
+            <label for="name">Name</label>
+            <input id="name" v-model="name">
+        </p>
+
+        <p>
+            <label for="review">Review</label>
+            <!-- <textarea id="review" v-model="review" required></textarea> -->
+            <textarea id="review" v-model="review"></textarea>
+        </p>
+
+        <p>
+            <label for="rating">Rating</label>
+            <!-- v-model.number => number modifier -->
+            <select id="rating" v-model.number="rating">
+                <option>5</option>
+                <option>4</option>
+                <option>3</option>
+                <option>2</option>
+                <option>1</option>
+            </select>
+        </p>
+
+        <p>
+            <label for="recommend">Would you recommend this product?</label>
+            <input type="radio" name="yes" id="yes" value="recommend" v-model="recommend">
+            <label for="yes">Yes</label>
+            <input type="radio" name="no" id="no" value="not recommend" v-model="recommend">
+            <label for="no">No</label>
+        </p>
+
+        <p>
+            <input type="submit" value="Submit">
+        </p>
+    </form>
+    `,
+    data() {
+        return {
+            name: null,
+            review: null,
+            rating: null,
+            recommend: null,
+            errors: [],
+        }
+    },
+    methods: {
+        onSubmit() {
+            this.errors = []
+            // array( use '=' )
+                // '=' is an assignment( for var, arr )
+            /* let productReview = [
+                name = this.name,
+                review = this.review,
+                rating = this.rating
+            ] */
+            // object( use ':' )
+            // forms validation
+            if( this.name && this.review && this.rating && this.recommend) {
+                let productReview = {
+                    name: this.name,
+                    review: this.review,
+                    rating: this.rating,
+                    recommend: this.recommend
+                }
+                this.$emit('review-submitted', productReview)
+// ???? Assignment( = ) ?????
+                name = null
+                review = null
+                rating = null
+                recommend = null
+            }
+            else {                
+                if(!this.name)   this.errors.push('Name required! ')
+                if(!this.review)   this.errors.push('Review required! ')
+                if(!this.rating)   this.errors.push('Rating required! ')
+                if(!this.recommend)   this.errors.push('Recommend required! ')
+
+                // alert(this.error)
+                // this.error.length = 0
+            }
+        }
+    }
 })
 
 
