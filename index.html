@@ -25,9 +25,10 @@
                 <!-- These double curly bracket called an Expression -->
                     <!-- Used to produce / evaluate a value -->
 
-                <h1>{{ product }}</h1>
+                <!-- <h1>{{ brand }} {{ product }}</h1> -->
+                <h1>{{ title }}</h1>
                 <h6>{{ description }}</h6>
-                <p v-if='inStock'>In Stock</p>
+                <p v-if="inStock">In Stock</p>
                 <p v-else class="outOfStock">Out of Stock</p>
                 <!-- <p v-if='inventory > 10'>In Stock</p>
                 <p v-else-if='inventory <= 10 && inventory > 0'>Almost sold out</p>
@@ -38,7 +39,6 @@
                 <!-- <p :style="{ textDecoration:inStock? '':'line-through' }">Out of Stock</p> -->
                 <!-- <p  :style="{ color:inStock? 'red':'' }">Out of Stock</p> -->
             
-
 
                 <span v-if="onSale">On Sale!</span>
                 <!-- <a :href="link" target="_blank">More products like this</a> -->
@@ -57,16 +57,16 @@
                 <!-- style att: 1) camelCase:value; , 2)'kebab-case':value; -->
                 <!-- :style="{ 'background-color':variant.variantColor, color:color, 'font-size':fontSize }" -->
                 <!-- :style="[styleObject1, styleObject2]" -->
-                <div v-for="variant in variants" 
+                <!-- <div v-for="variant in variants"  -->
+                <div v-for="(variant, index) in variants" 
                      :key="variant.variantID"
                      class="color-box"                    
                      :style="{ 'background-color':variant.variantColor }"
-                     @mouseover="updateProduct(variant.variantImage)"
-                     >
+                     @mouseover="updateProduct(index)"
+                >
                     <!-- <p v-on:mouseover="updateProduct(variant.variantImage)">{{ variant.variantColor }}</p> -->
                         <!-- v-on:mouseover == @mouseover -->
                     <!-- <p @mouseover="updateProduct(variant.variantImage)">{{ variant.variantColor }}</p> -->
-
                 </div>
                 
                 <!-- <button v-on:click="cart += 1">Add to Cart</button> -->
@@ -87,6 +87,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="home.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
